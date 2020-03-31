@@ -26,14 +26,13 @@ int whileLoop(int integer, const char* string)
 // Do while loop method.
 int doWhile(int integer, const char* string)
 {
-    int i = 1;
-    bool condition = true;
-    while (condition == true)
+    int i = 0;
+    do
     {
         cout << string << "\n";
-        if (++i > integer)
-            condition = false;
+        i++;
     }
+    while(i < integer);
     return 0;
 }
 // Main programme.
