@@ -3,16 +3,15 @@
 using namespace std;
 
 // For loop method.
-int forLoop(int integer, const char* string)
+void forLoop(int integer, const char* string)
 {
     for (int i = 0; i < integer; i++)
     {
         cout << string << "\n";
     }
-    return 0;
 }
 // While loop method.
-int whileLoop(int integer, const char* string)
+void whileLoop(int integer, const char* string)
 {
     int i = 1;
     while(true)
@@ -21,10 +20,9 @@ int whileLoop(int integer, const char* string)
         if(++i > integer)
             break;
     }
-    return 0;
 }
 // Do while loop method.
-int doWhile(int integer, const char* string)
+void doWhile(int integer, const char* string)
 {
     int i = 0;
     do
@@ -33,7 +31,6 @@ int doWhile(int integer, const char* string)
         i++;
     }
     while(i < integer);
-    return 0;
 }
 // Main programme.
 int main()
