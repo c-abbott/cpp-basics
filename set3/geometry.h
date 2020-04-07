@@ -10,3 +10,14 @@ public:
     void setY(const int yy) { y = yy; }
 };
 
+class PointArray {
+private:
+    Point *points; // Pointer to points array.
+    int size; // Size of points array.
+
+public:
+    PointArray();
+    PointArray(const Point copyPoints[], const int copySize);
+    PointArray(const PointArray &o);
+    ~PointArray();
+};
