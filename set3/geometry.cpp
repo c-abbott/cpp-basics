@@ -31,6 +31,51 @@ PointArray::~PointArray() {
     delete[] points;
 }
 
-int main() {
-    return 0;
+void PointArray::resize(int newSize) {
+    Point *newPts = new Point[newSize];
+    for (int i = 0; i < std::min(size, newSize); ++i) {
+        newPts[i] = points[i];
+    }
+    delete[] points;
+    size = newSize;
+    points = newPts;
+}
+// Clearing array.
+void PointArray::clear(){
+    resize(0);
+}
+// Adding point object at end of array.
+void PointArray::pushBack(const Point &p) {
+    resize(size + 1);
+    points[size - 1] = p;
+    // Or 
+    // insert(size-1);
+    
+}
+// Inserting point at desired position.
+void PointArray::insert(const int pos, const Point &p) {
+    resize(size + 1);
+    for (int i = size - 1; i > pos; i++) {
+        points[i] = points[i-1];
+    }
+    points[pos] = p;
+}
+
+void PointArray::remove(const int pos) {
+    if (pos >= 0 && pos < size) {
+        // Shifting everything left.
+        for (int i = pos; i < size - 2; i++) {
+            points[i] = points[i+1];
+        }
+        resize(size - 1);
+    }
+}
+
+// Pointer arithmetic.
+Point *PointArray::get(const int pos) {
+    return pos >= 0 && pos < size ? points + pos : NULL;
+}
+
+const Point *PointArray::get(const int pos) const { 
+    return pos >= 0 && pos < size ? points + pos : NULL;
 }
