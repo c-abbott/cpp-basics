@@ -8,13 +8,11 @@ PointArray::PointArray()
     points = new Point[0]; // Create array of size zero in heap.
     // Must implement a destructor now.
 }
-/* Function to take in an array of points and the size then initilises
-   an array of points with the specified size, copying the values
-   in the input array */
+// Making PointArray object from a literal array of points.
 PointArray::PointArray(const Point copyPoints[], const int copySize)
 {
     size = copySize;
-    points = new Point[copySize];
+    points = new Point[copySize]; // Initialise in heap
     for (int i = 0; i < copySize; ++i)
     {
         points[i] = copyPoints[i];
@@ -97,8 +95,12 @@ const Point *PointArray::get(const int pos) const
     return pos >= 0 && pos < size ? points + pos : NULL;
 }
 
+// Always intialise static members
+// in the cpp file.
 int Polygon::numPolygons = 0;
 
+// If given a PointArray object, this constructor will 
+// call upon
 Polygon::Polygon(const PointArray &pa) : points(pa)
 {
     ++numPolygons;
@@ -128,22 +130,42 @@ Point *updateConstructorPoints(const Point &p1, const Point &p2,
 
 Rectangle::Rectangle(const Point &ll, const Point &ur) :
     Polygon(updateConstructorPoints(ll, Point(ll.getX(), ur.getY()), 
-    ur, Point(ur.getX(), ll.getY())), 4) 
-    {}
+    ur, Point(ur.getX(), ll.getY())), 4) {}
 
 Rectangle::Rectangle(const int llx, const int lly, const int urx, const int ury) :
     Polygon(updateConstructorPoints(Point(llx,lly), Point(llx, ury), 
-    Point(urx, lly), Point(urx, ury)), 4)
-    {}
+    Point(urx, lly), Point(urx, ury)), 4) {}
 
 double Rectangle::area() const
 {
+    /* point.get(1) will retrieve the pointer to the 2nd element
+    in the points array. points.get(1)->getY() == (*points[1]).y 
+    and so we will recieve the y value associated with the 2nd
+    point and so on.
+    */
     int length = points.get(1)->getY() - points.get(0)->getY();
     int width = points.get(2)->getX() - points.get(1)->getX();
+    // Need to return a double.
     return std::abs((double)length * width);
 }
 
-int main() 
-{   
-    return 0;
+Triangle::Triangle(const Point &p1, const Point &p2, const Point &p3) :
+    Polygon(updateConstructorPoints(p1, p2, p3), 3) {}
+
+double Triangle::area() const
+{
+    int dx01 = points.get(0)->getX() - points.get(1)->getX(),
+        dx12 = points.get(1)->getX() - points.get(2)->getX(),
+        dx20 = points.get(2)->getX() - points.get(0)->getX();
+    int dy01 = points.get(0)->getY() - points.get(1)->getY(),
+        dy12 = points.get(1)->getY() - points.get(2)->getY(),
+        dy20 = points.get(2)->getY() - points.get(0)->getY();
+
+    double a = std ::sqrt(dx01 * dx01 + dy01 * dy01),
+           b = std ::sqrt(dx12 * dx12 + dy12 * dy12),
+           c = std ::sqrt(dx20 * dx20 + dy20 * dy20);
+    
+    double s = (a + b + c) / 2;
+
+    return std::sqrt(s  * (s-a) * (s-b) * (s-c));
 }
